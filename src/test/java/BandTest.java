@@ -63,24 +63,11 @@ public class BandTest {
     assertEquals("Atom and his Package", myBand.getName());
   }
 
-
-  // @Test
-  // public void delete_clearsJoinTableAsWellAsBand_true() {
-  //   Venue myVenue = new Venue("Bagdad");
-  //   myVenue.save();
-  //   Band myBand = new Band("Atom and his Package");
-  //   myBand.save();
-  //   myBand.addVenue(myVenue);
-  //   myBand.delete();
-  //   int venueId = myVenue.getId();
-  //   Integer nullChecker;
-  //   String sql = "SELECT id FROM bands_venues";
-  //   try(Connection con = DB.sql2o.open()) {
-  //     nullChecker = con.createQuery(sql).executeAndFetchFirst(Integer.class);
-  //
-  //   assertEquals((int)venueId, (int)nullChecker);
-  //   }
-  // }
-
+  @Test
+  public void save_doesNotRunOnEmptyString() {
+    Band myBand = new Band("");
+    myBand.save();
+    assertEquals(Band.all().size(), 0);
+  }
 
 }

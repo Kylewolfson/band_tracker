@@ -37,12 +37,14 @@ public class Venue {
   }
 
   public void save() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO venues (name) VALUES (:name)";
-      this.id = (int) con.createQuery(sql, true)
-      .addParameter("name", this.name)
-      .executeUpdate()
-      .getKey();
+    if (!this.getName().equals("")) {
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "INSERT INTO venues (name) VALUES (:name)";
+        this.id = (int) con.createQuery(sql, true)
+        .addParameter("name", this.name)
+        .executeUpdate()
+        .getKey();
+      }
     }
   }
 
