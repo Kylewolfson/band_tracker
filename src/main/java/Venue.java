@@ -46,7 +46,7 @@ public class Venue {
     }
   }
 
-  public static Recipe find(int id) {
+  public static Venue find(int id) {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM venues WHERE id=:id";
       Venue venue = con.createQuery(sql)
@@ -55,3 +55,5 @@ public class Venue {
       return venue;
     }
   }
+
+}
