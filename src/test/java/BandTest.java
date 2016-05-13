@@ -43,6 +43,16 @@ public class BandTest {
     myBand.delete();
     assertEquals(Band.all().size(), 0);
   }
+  @Test
+  public void addVenue_addVenueToBand() {
+    Venue myVenue = new Venue("Bagdad");
+    myVenue.save();
+    Band myBand = new Band("Atom and his Package");
+    myBand.save();
+    myBand.addVenue(myVenue);
+    Venue savedVenue = myBand.getVenues().get(0);
+    assertTrue(myVenue.equals(savedVenue));
+  }
 
 
 }
