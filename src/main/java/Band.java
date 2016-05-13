@@ -36,6 +36,15 @@ public class Band {
     }
   }
 
+  public void clearVenues() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM bands_venues WHERE band_id = :id";
+      con.createQuery(sql)
+      .addParameter("id", this.id)
+      .executeUpdate();
+    }
+  }
+
   public void save() {
     if (!this.getName().equals("")) {
       try(Connection con = DB.sql2o.open()) {

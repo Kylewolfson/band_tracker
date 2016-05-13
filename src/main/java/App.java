@@ -36,6 +36,21 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/edit_band_venues/:id", (request, response) -> {
+      Integer id = Integer.parseInt(request.params("id"));
+      String[] venues = request.queryParamsValues("venue");
+      Band band = Band.find(id);
+      band.clearVenues();
+      if (venues != null) {
+        for (String venueId : venues) {
+          Venue addVenue = Venue.find(Integer.parseInt(venueId));
+          band.addVenue(addVenue);
+        }
+      }
+      response.redirect("/bands/"+id.toString()+"/edit_band");
+      return null;
+    });
+
     get("/new_band", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       model.put("bands", Band.all());
