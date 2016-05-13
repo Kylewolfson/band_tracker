@@ -57,4 +57,24 @@ public class Venue {
     }
   }
 
+  public String checkboxMemory(Band band) {
+    try(Connection con = DB.sql2o.open()) {
+      String joinQuery = "SELECT venues.* FROM bands" +
+      " JOIN bands_venues ON (bands.id = bands_venues.band_id)" +
+      " JOIN venues ON (bands_venues.venue_id = venues.id)" +
+      " WHERE band_id = :band_id AND venue_id = :venue_id;";
+
+      Venue venue = con.createQuery(joinQuery)
+        .addParameter("band_id", band.getId())
+        .addParameter("venue_id", this.getId())
+        .executeAndFetchFirst(Venue.class);
+      if (venue == null){
+        return null;
+      }
+      else {
+        return "checked";
+      }
+    }
+  }
+
 }
