@@ -78,27 +78,6 @@ public class Band {
     }
   }
 
-  // public List<Venue> getVenues() {
-  //   try(Connection con = DB.sql2o.open()) {
-  //     String joinQuery = "SELECT venue_id FROM bands_venues WHERE band_id = :band_id;";
-  //
-  //     List<Integer> venueIds = con.createQuery(joinQuery)
-  //       .addParameter("band_id", this.getId())
-  //       .executeAndFetch(Integer.class);
-  //
-  //     List<Venue> venues = new ArrayList<Venue>();
-  //
-  //     for (Integer venueId : venueIds) {
-  //       String recipeQuery = "SELECT * FROM venues WHERE id = :venueId;";
-  //       Venue venue = con.createQuery(recipeQuery)
-  //         .addParameter("venueId", venueId)
-  //         .executeAndFetchFirst(Venue.class);
-  //       venues.add(venue);
-  //     }
-  //     return venues;
-  //   }
-  // }
-
   public List<Venue> getVenues() {
     try(Connection con = DB.sql2o.open()) {
       String joinQuery = "SELECT venues.* FROM bands" +
@@ -106,12 +85,25 @@ public class Band {
       " JOIN venues ON (bands_venues.venue_id = venues.id)" +
       " WHERE band_id = :band_id;";
 
-      List<Venue> venues = new ArrayList<Venue>();
-
-      venues = con.createQuery(joinQuery)
+      List<Venue> venues = con.createQuery(joinQuery)
         .addParameter("band_id", this.getId())
         .executeAndFetch(Venue.class);
       return venues;
+    }
+  }
+
+  public void editBand(String newName) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE bands SET name = :name WHERE id = :id;";
+      con.createQuery(sql)
+        .addParameter("id", this.id)
+        .addParameter("name", newName)
+        .executeUpdate();
+      String synch = "SELECT name FROM bands WHERE id = :id;";
+      this.name = con.createQuery(synch)
+        .addParameter("id", this.id)
+        .executeAndFetchFirst(String.class);
+      // probably easier and more efficient to just update the local object directly here, but this is more complicated and thus must be better.
     }
   }
 
