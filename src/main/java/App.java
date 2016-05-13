@@ -18,6 +18,24 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    get("/bands/:id", (request,response) ->{
+      Map<String, Object> model = new HashMap<String, Object>();
+      Band band = Band.find(Integer.parseInt(request.params("id")));
+      model.put("band", band);
+      model.put("venues", band.getVenues());
+      model.put("template", "templates/band_detail.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/bands/:id/edit_band", (request,response) ->{
+      Map<String, Object> model = new HashMap<String, Object>();
+      Band band = Band.find(Integer.parseInt(request.params("id")));
+      model.put("band", band);
+      model.put("venues", Venue.all());
+      model.put("template", "templates/edit_band.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     get("/new_band", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       model.put("bands", Band.all());

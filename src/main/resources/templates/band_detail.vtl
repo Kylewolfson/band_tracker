@@ -1,0 +1,12 @@
+<h1>$band.getName()!</h1>
+
+<ul>
+  #foreach ($venue in $venues)
+   <h3><li>$venue.getName()</a></li></h3>
+  #end
+</ul>
+
+<h4><a href="/bands/$band.getId()/edit_band">Edit band details</a></h4>
+
+<br>
+<h4><a href="/">Home</a></h4>
