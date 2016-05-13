@@ -37,10 +37,12 @@ public class BandTest {
   }
 
   @Test
-  public void find_findsBandInDatabase_true() {
+  public void delete_deletesBandFromDatabase_true() {
     Band myBand = new Band("Atom and his Package");
     myBand.save();
-    Band savedBand = Band.find(myBand.getId());
-    assertTrue(myBand.equals(savedBand));
+    myBand.delete();
+    assertEquals(Band.all().size(), 0);
   }
+
+
 }
