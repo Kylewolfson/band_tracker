@@ -51,6 +51,23 @@ public class App {
       return null;
     });
 
+    post("/rename_band/:id", (request, response) -> {
+      Integer id = Integer.parseInt(request.params("id"));
+      Band band = Band.find(id);
+      String name = request.queryParams("name");
+      band.editBand(name);
+      response.redirect("/bands/"+id.toString()+"/edit_band");
+      return null;
+    });
+
+    post("/delete_band/:id", (request, response) -> {
+      Integer id = Integer.parseInt(request.params("id"));
+      Band band = Band.find(id);
+      band.delete();
+      response.redirect("/");
+      return null;
+    });
+
     get("/new_band", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       model.put("bands", Band.all());
